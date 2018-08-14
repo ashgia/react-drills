@@ -1,21 +1,42 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
 
 class App extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      favoriteAnimals: ["Manatee", "Possum", "Sloth", "Raccoon"],
+      inputFavoriteAnimals: ""
+    };
+    this.onChangeHandler = this.onChangeHandler.bind(this);
+  }
+
+  onChangeHandler(e) {
+    //setstate
+    this.setState({ inputFavoriteAnimals: e.target.value });
+  }
+
   render() {
+    console.log("state: ", this.state);
+    //logic before rendering
+    const listDisplay = this.state.favoriteAnimals
+      .filter(animal => {
+        return animal
+          .toLowerCase()
+          .includes(this.state.inputFavoriteAnimals.toLowerCase());
+      })
+      //listDisplay  = Array [<div></div>,<div></div>,<div></div>,<div></div>,]
+      .map(animal => <div>{animal}</div>);
+
+    //rendering
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <input className="inputBox" onChange={this.onChangeHandler} />
+        <div>{listDisplay}</div>
       </div>
     );
   }
 }
-
+//export
 export default App;
